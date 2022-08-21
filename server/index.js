@@ -7,7 +7,7 @@ const cookieParser = require('cookie-parser');
 const config = require('./config/key');
 const mainRouter = require('./routers/main');
 const userRouter = require('./routers/user');
-// const cors = require('cors');
+const videoRouter = require('./routers/video');
 
 mongoose
 	.connect(config.mongoURI)
@@ -19,10 +19,10 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
-// app.use(cors());
 
 app.use('/api', mainRouter);
 app.use('/api/users', userRouter);
+app.use('/api/video', videoRouter);
 
 const port = 8080;
 app.listen(port, () => console.log(`Server is running on ${port}`));
