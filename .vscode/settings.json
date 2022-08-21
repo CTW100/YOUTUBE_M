@@ -1,0 +1,5 @@
+{
+    "editor.fontFamily": "Source Code Pro , Courier New , Lucida Console , Nanum Gothic Coding , D2Coding",
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+}
