@@ -3,6 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+const cors = require('cors');
 // custom modules
 const config = require('./config/key');
 const mainRouter = require('./routers/main');
@@ -18,6 +19,12 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(
+	cors({
+		origin: 'https://youtube-vmwgf.run.goorm.io',
+		credentials: true,
+	})
+);
 app.use(cookieParser());
 
 app.use('/api', mainRouter);

@@ -15,6 +15,7 @@ import Main from './pages/Main';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Logout from './components/Logout';
+import VideoUploadPage from './pages/VideoUploadPage';
 import Auth from './hoc/auth';
 import { CookiesProvider } from 'react-cookie';
 
@@ -47,6 +48,11 @@ class App extends Component {
 							exact
 							path='/logout'
 							component={Auth(Logout, true)}
+						/>
+						<Route
+							exact
+							path='/products/uploadfile'
+							component={Auth(VideoUploadPage, null)}
 						/>
 					</Switch>
 				</Router>

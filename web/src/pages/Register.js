@@ -47,6 +47,7 @@ function Register(props) {
 				props.history.push('/login');
 			} else {
 				alert('Failed to Sign Up');
+				props.history.push('/new');
 			}
 		});
 	};

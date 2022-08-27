@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { withRouter } from 'react-router-dom'; // history를 사용하기 위해서
-import DropZone from 'react-dropzone';
+import { PlusOutlined } from '@ant-design/icons';
+import Dropzone from 'react-dropzone';
 import axios from 'axios';
 
-function Register(props) {
+function VideoUploadPage(props) {
 	const [title, setTitle] = useState('');
 	const [description, setDescription] = useState('');
 	const [privacy, setPrivacy] = useState(1);
@@ -73,7 +74,7 @@ function Register(props) {
 							{...getRootProps()}
 						>
 							<input {...getInputProps()} />
-							<Icon type='plus' style={{ fontSize: '3rem' }} />
+							<PlusOutlined style={{ fontSize: '3rem' }} />
 						</div>
 					)}
 				</Dropzone>
@@ -126,4 +127,4 @@ function Register(props) {
 	);
 }
 
-export default withRouter(Register);
+export default withRouter(VideoUploadPage);

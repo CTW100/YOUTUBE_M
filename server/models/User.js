@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const saltRounds = 10;
 
 const userSchema = mongoose.Schema({
 	username: { type: String, required: true, maxlength: 20 },
@@ -11,15 +12,36 @@ const userSchema = mongoose.Schema({
 });
 
 userSchema.pre('save', function (next) {
-	const user = this;
+	var user = this;
 
-	if (!user.isModified('password')) {
-		return next();
+	if (user.isModified('password')) {
+		bcrypt.genSalt(saltRounds, function (err, salt) {
+			if (err) {
+				console.log(err);
+				return next(err);
+			}
+
+			bcrypt.hash(user.password, salt, function (err, hash) {
+				if (err) return next(err);
+				user.password = hash;
+				next();
+			});
+		});
 	} else {
-		user.password = bcrypt.hash(user.password);
-		return next();
+		next();
 	}
 });
+
+// userSchema.pre('save', function (next) {
+// 	const user = this;
+
+// 	if (!user.isModified('password')) {
+// 		return next();
+// 	} else {
+// 		user.password = bcrypt.hash(user.password);
+// 		return next();
+// 	}
+// });
 
 userSchema.methods.comparePassword = function (plainPassword, callback) {
 	const user = this;
