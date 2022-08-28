@@ -9,6 +9,7 @@ const config = require('./config/key');
 const mainRouter = require('./routers/main');
 const userRouter = require('./routers/user');
 const videoRouter = require('./routers/video');
+const subscribeRouter = require('./routers/subscribe');
 
 mongoose
 	.connect(config.mongoURI)
@@ -32,6 +33,7 @@ app.use(cookieParser());
 app.use('/api', mainRouter);
 app.use('/api/users', userRouter);
 app.use('/api/video', videoRouter);
+app.use('/api/subscribe', subscribeRouter);
 
 const port = 8080;
 app.listen(port, () => console.log(`Server is running on ${port}`));

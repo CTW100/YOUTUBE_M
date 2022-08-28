@@ -16,6 +16,8 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Logout from './components/Logout';
 import VideoUploadPage from './pages/VideoUploadPage';
+import VideoDetail from './pages/VideoDetail';
+import SubscriptionPage from './pages/SubscriptionPage';
 import Auth from './hoc/auth';
 import { CookiesProvider } from 'react-cookie';
 
@@ -51,9 +53,15 @@ class App extends Component {
 						/>
 						<Route
 							exact
-							path='/products/uploadfile'
+							path='/video/uploadfile'
 							component={Auth(VideoUploadPage, null)}
 						/>
+						<Route
+							exact
+							path='/video/:videoId'
+							component={Auth(VideoDetail, null)}
+						/>
+						<Route exact path="/subscription" component={Auth(SubscriptionPage, null)} />
 					</Switch>
 				</Router>
 			</CookiesProvider>

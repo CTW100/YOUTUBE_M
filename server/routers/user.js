@@ -65,7 +65,10 @@ router.get('/auth', auth, (req, res) => {
 // 로그아웃 : GET && api/users/logout
 router.get('/logout', auth, (req, res) => {
 	User.findOneAndUpdate({ _id: req.user._id }, { token: '' }, (err, user) => {
-		if (err) return res.json({ logoutSuccess: false, err });
+		if (err) {
+			console.log(err);
+			return res.json({ logoutSuccess: false, err });
+		}
 		return res.status(200).send({
 			logoutSuccess: true,
 		});

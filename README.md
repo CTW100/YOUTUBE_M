@@ -12,3 +12,5 @@ model User 에서 에러 코드가 있었는데, 정작 web console에서는 cor
 Error: ffmpeg was killed with signal SIGKILL???????
 
 dpkg가 중단되었습니다. 수동으로 'sudo dpkg --configure -a' 명령을 실행해 문제점을 바로잡으십시오.
+
+Made Subscribe Feature (2)

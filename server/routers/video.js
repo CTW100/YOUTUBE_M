@@ -5,6 +5,7 @@ const multer = require('multer');
 const ffmpeg = require('fluent-ffmpeg');
 // custom modules
 const Video = require('../models/Video');
+const Subscriber = require('../models/Subscriber');
 
 //https://victorydntmd.tistory.com/39
 const storage = multer.diskStorage({
@@ -101,6 +102,50 @@ router.post('/uploadVideo', (req, res) => {
 		if (err) return res.status(400).json({ sucess: false, err });
 		return res.status(200).json({ success: true });
 	});
+});
+
+router.get('/getVideos', (req, res) => {
+	Video.find()
+		.populate('writer')
+		.exec((err, videos) => {
+			if (err) {
+				console.log(err);
+				return res.status(400).send(err);
+			}
+			res.status(200).json({ success: true, videos });
+		});
+});
+
+router.post('/getVideo', (req, res) => {
+	Video.findOne({ _id: req.body.videoId })
+		.populate('writer')
+		.exec((err, video) => {
+			if (err) return res.status(400).send(err);
+			res.status(200).json({ success: true, video });
+		});
+});
+
+router.post('/getSubscriptionVideos', (req, res) => {
+	Subscriber.find({ userFrom: req.body.userFrom }).exec(
+		(err, subscribers) => {
+			if (err) return res.status(400).send(err);
+
+			let subscribedUser = [];
+
+			subscribers.map((subscriber, i) => {
+				subscribedUser.push(subscriber.userTo);
+			});
+
+			// Need to Fetch all of the Videos that belong to the Users that I found in previous step
+			// 내가 구독한 유저들이 올린 비디오들을 다 가져옴
+			Video.find({ writer: { $in: subscribedUser } })
+				.populate('writer')
+				.exec((err, videos) => {
+					if (err) return res.status(400).send(err);
+					res.status(200).json({ success: true, videos });
+				});
+		}
+	);
 });
 
 module.exports = router;

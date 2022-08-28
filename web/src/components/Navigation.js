@@ -12,9 +12,10 @@ function Navigation() {
 						<Nav.Link href='/new'>Create Account</Nav.Link>
 						<Nav.Link href='/login'>Login</Nav.Link>
 						<Nav.Link href='/logout'>Logout</Nav.Link>
-						<Nav.Link href='/products/uploadfile'>
+						<Nav.Link href='/video/uploadfile'>
 							Upload Video
 						</Nav.Link>
+						<Nav.Link href='/subscription'>Subscription</Nav.Link>
 					</Nav>
 				</Container>
 			</Navbar>
