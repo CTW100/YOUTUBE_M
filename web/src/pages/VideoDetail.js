@@ -4,6 +4,7 @@ import { List, Avatar, Row, Col } from 'antd';
 import axios from 'axios';
 import SideVideo from '../components/SideVideo';
 import Subscribe from '../components/Subscribe';
+import Comments from '../components/Comments';
 
 function VideoDetail(props) {
 	const videoId = props.match.params.videoId;
@@ -67,6 +68,8 @@ function VideoDetail(props) {
 							/>
 							<div></div>
 						</List.Item>
+
+						<Comments />
 					</div>
 				</Col>
 				<Col lg={6} xs={24}>
