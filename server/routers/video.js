@@ -1,7 +1,10 @@
+// npm modules
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
-const User = require('../models/User');
+const ffmpeg = require('fluent-ffmpeg');
+// custom modules
+const Video = require('../models/Video');
 
 //https://victorydntmd.tistory.com/39
 const storage = multer.diskStorage({
@@ -27,17 +30,18 @@ const upload = multer({ storage: storage }).single('file');
 //=================================
 
 // 비디오 업로드 : GET && /api/video/uploadfiles
-router.get(
+router.post(
 	'/uploadfiles',
 	(req, res) => {
 		upload(req, res, (err) => {
 			if (err) {
 				return res.json({ uploadSuccess: false, err });
 			}
+			console.log('res.req.file: ', res.req.file);
 			return res.json({
 				uploadSuccess: true,
 				filePath: res.req.file.path,
-				fileName: res.req.file.fileName,
+				fileName: res.req.file.filename,
 			});
 		});
 	}
@@ -47,5 +51,56 @@ router.get(
 	// upload"로" 들어오는 req 에서 file.path 를 찾아 upload"의" res로 돌려줌
 	// 물론 res.json 에서 res 는 exports.uploadVideo = (req, res) => ~ 에서의 res임
 );
+
+// ffmpeg:  https://velog.io/@nomadhash/TIL-FFmpeg-Node-JS%EB%A1%9C-%EC%98%81%EC%83%81-%EC%8D%B8%EB%84%A4%EC%9D%BC-%EC%83%9D%EC%84%B1%ED%95%98%EA%B8%B0
+
+router.post('/thumbnail', (req, res) => {
+	// 썸네일 생성하고 비디오 러닝타임도 가져오기
+	let thumbsFilePath = '';
+	let fileDuration = '';
+
+	// 비디오 정보 가져오기
+
+	ffmpeg.ffprobe(req.body.filePath, function (err, metadata) {
+		console.dir('metadata: ', metadata);
+		console.log('metadata.format.duration: ', metadata.format.duration);
+
+		fileDuration = metadata.format.duration;
+	});
+
+	// 썸네일 생성
+	ffmpeg(req.body.filePath)
+		.on('filenames', function (filenames) {
+			console.log('Will generate ' + filenames.join(', '));
+			thumbsFilePath = 'uploads/thumbnails/' + filenames[0];
+		})
+		.on('end', function () {
+			console.log('Screenshots taken');
+			return res.json({
+				success: true,
+				thumbsFilePath: thumbsFilePath,
+				fileDuration: fileDuration,
+			});
+		})
+		.on('error', function (err) {
+			console.log(err);
+			return res.json({ success: false, err });
+		})
+		.screenshots({
+			// Will take screens at 20%, 40%, 60% and 80% of the video
+			count: 1,
+			folder: 'uploads/thumbnails',
+			size: '320x240',
+			// %b input basename ( filename w/o extension )
+			filename: 'thumbnail-%b.png',
+		});
+});
+
+router.post('/uploadVideo', (req, res) => {
+	Video.create(req.body, (err, video) => {
+		if (err) return res.status(400).json({ sucess: false, err });
+		return res.status(200).json({ success: true });
+	});
+});
 
 module.exports = router;
