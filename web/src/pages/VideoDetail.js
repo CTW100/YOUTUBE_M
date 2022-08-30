@@ -7,10 +7,10 @@ import Subscribe from '../components/Subscribe';
 import Comments from '../components/Comments';
 
 function VideoDetail(props) {
-	const videoId = props.match.params.videoId;
-
 	const [video, setVideo] = useState([]);
+	const [commentLists, setCommentLists] = useState([]);
 
+	const videoId = props.match.params.videoId;
 	const videoVariable = {
 		videoId: videoId,
 	};
@@ -29,7 +29,28 @@ function VideoDetail(props) {
 					alert('Failed to get video Info');
 				}
 			});
+
+		axios
+			.post(
+				'https://youtube-api.run.goorm.io/api/comment/getComments',
+				videoVariable
+			)
+			.then((response) => {
+				if (response.data.success) {
+					console.log(
+						'response.data.comments',
+						response.data.comments
+					);
+					setCommentLists(response.data.comments);
+				} else {
+					alert('Failed to get video Info');
+				}
+			});
 	}, []);
+
+	const updateComment = (newComment) => {
+		setCommentLists(commentLists.concat(newComment));
+	};
 
 	if (video.writer) {
 		return (
@@ -69,7 +90,11 @@ function VideoDetail(props) {
 							<div></div>
 						</List.Item>
 
-						<Comments />
+						<Comments
+							commentLists={commentLists}
+							postId={video._id}
+							refreshFunction={updateComment}
+						/>
 					</div>
 				</Col>
 				<Col lg={6} xs={24}>
