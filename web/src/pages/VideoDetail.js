@@ -5,6 +5,7 @@ import axios from 'axios';
 import SideVideo from '../components/SideVideo';
 import Subscribe from '../components/Subscribe';
 import Comments from '../components/Comments';
+import LikeDislike from '../components/LikeDislike';
 
 function VideoDetail(props) {
 	const [video, setVideo] = useState([]);
@@ -68,6 +69,11 @@ function VideoDetail(props) {
 
 						<List.Item
 							actions={[
+								<LikeDislike
+									video
+									videoId={videoId}
+									userId={localStorage.getItem('userId')}
+								/>,
 								<Subscribe
 									userFrom={localStorage.getItem('userId')}
 									userTo={video.writer && video.writer._id}

@@ -11,6 +11,7 @@ const userRouter = require('./routers/user');
 const videoRouter = require('./routers/video');
 const subscribeRouter = require('./routers/subscribe');
 const commentRouter = require('./routers/comment');
+const likeRouter = require('./routers/like');
 
 mongoose
 	.connect(config.mongoURI)
@@ -36,6 +37,7 @@ app.use('/api/users', userRouter);
 app.use('/api/video', videoRouter);
 app.use('/api/subscribe', subscribeRouter);
 app.use('/api/comment', commentRouter);
+app.use('/api/like', likeRouter);
 
 const port = 8080;
 app.listen(port, () => console.log(`Server is running on ${port}`));
