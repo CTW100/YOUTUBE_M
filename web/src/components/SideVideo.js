@@ -5,16 +5,14 @@ function SideVideo() {
 	const [sideVideos, setSideVideos] = useState([]);
 
 	useEffect(() => {
-		axios
-			.get('https://youtube-api.run.goorm.io/api/video/getVideos')
-			.then((response) => {
-				if (response.data.success) {
-					console.log(response.data.success);
-					setSideVideos(response.data.videos);
-				} else {
-					alert('Failed to get Videos');
-				}
-			});
+		axios.get('/api/video/getVideos').then((response) => {
+			if (response.data.success) {
+				console.log(response.data.success);
+				setSideVideos(response.data.videos);
+			} else {
+				alert('Failed to get Videos');
+			}
+		});
 	}, []);
 
 	const sideVideoItem = sideVideos.map((video, index) => {

@@ -17,25 +17,17 @@ function VideoDetail(props) {
 	};
 
 	useEffect(() => {
-		axios
-			.post(
-				'https://youtube-api.run.goorm.io/api/video/getVideo',
-				videoVariable
-			)
-			.then((response) => {
-				if (response.data.success) {
-					console.log(response.data.video);
-					setVideo(response.data.video);
-				} else {
-					alert('Failed to get video Info');
-				}
-			});
+		axios.post('/api/video/getVideo', videoVariable).then((response) => {
+			if (response.data.success) {
+				console.log(response.data.video);
+				setVideo(response.data.video);
+			} else {
+				alert('Failed to get video Info');
+			}
+		});
 
 		axios
-			.post(
-				'https://youtube-api.run.goorm.io/api/comment/getComments',
-				videoVariable
-			)
+			.post('/api/comment/getComments', videoVariable)
 			.then((response) => {
 				if (response.data.success) {
 					console.log(

@@ -5,17 +5,15 @@ const Logout = (props) => {
 	const onLogoutHandler = (event) => {
 		event.preventDefault();
 
-		axios
-			.get('https://youtube-api.run.goorm.io/api/users/logout')
-			.then((response) => {
-				console.log(response.data);
-				if (response.data.logoutSuccess) {
-					console.log('Logout Success');
-					props.history.push('/');
-				} else {
-					alert('Logout Failed!');
-				}
-			});
+		axios.get('/api/users/logout').then((response) => {
+			console.log(response.data);
+			if (response.data.logoutSuccess) {
+				console.log('Logout Success');
+				props.history.push('/');
+			} else {
+				alert('Logout Failed!');
+			}
+		});
 	};
 
 	return (

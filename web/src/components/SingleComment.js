@@ -29,20 +29,15 @@ function SingleComment(props) {
 			content: commentValue,
 		};
 
-		axios
-			.post(
-				'https://youtube-api.run.goorm.io/api/comment/saveComment',
-				variables
-			)
-			.then((response) => {
-				if (response.data.success) {
-					setCommentValue('');
-					setOpenReply(!openReply);
-					props.refreshFunction(response.data.result);
-				} else {
-					alert('Failed to save Comment');
-				}
-			});
+		axios.post('/api/comment/saveComment', variables).then((response) => {
+			if (response.data.success) {
+				setCommentValue('');
+				setOpenReply(!openReply);
+				props.refreshFunction(response.data.result);
+			} else {
+				alert('Failed to save Comment');
+			}
+		});
 	};
 
 	const actions = [
@@ -63,8 +58,8 @@ function SingleComment(props) {
 				author={props.comment.writer.name}
 				avatar={<Avatar src={props.comment.writer.image} alt='image' />}
 				content={<p>{props.comment.content}</p>}
-			></Comment>
-
+			/>
+			
 			{openReply && (
 				<form style={{ display: 'flex' }} onSubmit={onSubmitHandler}>
 					<TextArea

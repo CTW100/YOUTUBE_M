@@ -21,10 +21,7 @@ function Subscribe(props) {
 		if (subscribed) {
 			// when we are already subscribed
 			axios
-				.post(
-					'https://youtube-api.run.goorm.io/api/subscribe/unSubscribe',
-					subscribeVariables
-				)
+				.post('/api/subscribe/unSubscribe', subscribeVariables)
 				.then((response) => {
 					if (response.data.success) {
 						setSubscribeNumber(subscribeNumber - 1);
@@ -36,10 +33,7 @@ function Subscribe(props) {
 		} else {
 			// when we are not subscribed yet
 			axios
-				.post(
-					'https://youtube-api.run.goorm.io/api/subscribe/subscribe',
-					subscribeVariables
-				)
+				.post('/api/subscribe/subscribe', subscribeVariables)
 				.then((response) => {
 					if (response.data.success) {
 						setSubscribeNumber(subscribeNumber + 1);
@@ -56,10 +50,7 @@ function Subscribe(props) {
 		};
 
 		axios
-			.post(
-				'https://youtube-api.run.goorm.io/api/subscribe/subscribeNumber',
-				subscribeNumberVariables
-			)
+			.post('/api/subscribe/subscribeNumber', subscribeNumberVariables)
 			.then((response) => {
 				if (response.data.success) {
 					setSubscribeNumber(response.data.subscribeNumber);
@@ -69,10 +60,7 @@ function Subscribe(props) {
 			});
 
 		axios
-			.post(
-				'https://youtube-api.run.goorm.io/api/subscribe/subscribed',
-				subscribeNumberVariables
-			)
+			.post('/api/subscribe/subscribed', subscribeNumberVariables)
 			.then((response) => {
 				if (response.data.success) {
 					setSubscribed(response.data.subscribed);

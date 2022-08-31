@@ -23,123 +23,96 @@ function LikeDislike(props) {
 	}
 
 	useEffect(() => {
-		axios
-			.post('https://youtube-api.run.goorm.io/api/like/getLikes')
-			.then((response) => {
-				console.log('getLikes', response.data);
+		axios.post('/api/like/getLikes').then((response) => {
+			console.log('getLikes', response.data);
 
-				if (response.data.success) {
-					// How many likes does this video or comment have
-					setLikes(response.data.likes.length);
+			if (response.data.success) {
+				// How many likes does this video or comment have
+				setLikes(response.data.likes.length);
 
-					// If I already click this like button or not
-					response.data.likes.map((like) => {
-						if (like.userId === props.userId) {
-							setLikeAction('liked');
-						}
-					});
-				} else {
-					alert('Failed to get dislikes');
-				}
-			});
+				// If I already click this like button or not
+				response.data.likes.map((like) => {
+					if (like.userId === props.userId) {
+						setLikeAction('liked');
+					}
+				});
+			} else {
+				alert('Failed to get dislikes');
+			}
+		});
 
-		axios
-			.post(
-				'https://youtube-api.run.goorm.io/api/like/getDislikes',
-				variables
-			)
-			.then((response) => {
-				console.log('getDislikes', response.data);
+		axios.post('/api/like/getDislikes', variables).then((response) => {
+			console.log('getDislikes', response.data);
 
-				if (response.data.success) {
-					// How many dislikes does this video or comment have
-					setDislikes(response.data.dislikes.length);
+			if (response.data.success) {
+				// How many dislikes does this video or comment have
+				setDislikes(response.data.dislikes.length);
 
-					// If I already click this like button or not
-					response.data.dislikes.map((dislike) => {
-						if (dislike.userId === props.userId) {
-							setDislikeAction('disliked');
-						} else {
-							alert('Failed to get dislikes');
-						}
-					});
-				}
-			});
+				// If I already click this like button or not
+				response.data.dislikes.map((dislike) => {
+					if (dislike.userId === props.userId) {
+						setDislikeAction('disliked');
+					} else {
+						alert('Failed to get dislikes');
+					}
+				});
+			}
+		});
 	}, []);
 
 	const onLike = () => {
 		if (likeAction === null) {
-			axios
-				.post(
-					'https://youtube-api.run.goorm.io/api/like/upLike',
-					variables
-				)
-				.then((response) => {
-					if (response.data.success) {
-						setLikes(likes + 1);
-						setLikeAction('liked');
+			axios.post('/api/like/upLike', variables).then((response) => {
+				if (response.data.success) {
+					setLikes(likes + 1);
+					setLikeAction('liked');
 
-						// if dislike button is already cliecked
-						if (dislikeAction !== null) {
-							setDislikeAction('null');
-							setDislikes(dislikes - 1);
-						}
-					} else {
-						alert('Failed to increase the like');
+					// if dislike button is already cliecked
+					if (dislikeAction !== null) {
+						setDislikeAction('null');
+						setDislikes(dislikes - 1);
 					}
-				});
+				} else {
+					alert('Failed to increase the like');
+				}
+			});
 		} else {
-			axios
-				.post(
-					'https://youtube-api.run.goorm.io/api/like/unLike',
-					variables
-				)
-				.then((response) => {
-					if (response.data.success) {
-						setLikes(likes - 1);
-						setLikeAction(null);
-					} else {
-						alert('Failed to decrease the like');
-					}
-				});
+			axios.post('/api/like/unLike', variables).then((response) => {
+				if (response.data.success) {
+					setLikes(likes - 1);
+					setLikeAction(null);
+				} else {
+					alert('Failed to decrease the like');
+				}
+			});
 		}
 	};
 
 	const onDislike = () => {
 		if (dislikeAction !== null) {
-			axios
-				.post(
-					'https://youtube-api.run.goorm.io/api/like/unDislike',
-					variables
-				)
-				.then((response) => {
-					if (response.data.success) {
-						setDislikes(dislikes - 1);
-						setDislikeAction(null);
-					} else {
-						alert('Failed to decrease dislike');
-					}
-				});
+			axios.post('/api/like/unDislike', variables).then((response) => {
+				if (response.data.success) {
+					setDislikes(dislikes - 1);
+					setDislikeAction(null);
+				} else {
+					alert('Failed to decrease dislike');
+				}
+			});
 		} else {
-			axios
-				.post(
-					'https://youtube-api.run.goorm.io/api/like/upDislike',
-					variables
-				)
-				.then((response) => {
-					if (response.data.success) {
-						setDislikes(dislikes + 1);
-						setDislikeAction('disliked');
+			axios.post('/api/like/upDislike', variables).then((response) => {
+				if (response.data.success) {
+					setDislikes(dislikes + 1);
+					setDislikeAction('disliked');
 
-						// if dislike button is already clicked
-						if (likeAction !== null) {
-							setLikeAction(null);
-							setLikes(likes - 1);
-						}
-					} else {
-						alert('Failed to increase dislike');
+					// if dislike button is already clicked
+					if (likeAction !== null) {
+						setLikeAction(null);
+						setLikes(likes - 1);
 					}
-				});
+				} else {
+					alert('Failed to increase dislike');
+				}
+			});
 		}
 	};
 

@@ -24,25 +24,20 @@ function Comments(props) {
 			postId: props.postId,
 		};
 
-		axios
-			.post(
-				'https://youtube-api.run.goorm.io/api/comment/saveComment',
-				variables
-			)
-			.then((response) => {
-				if (response.data.success) {
-					setComment('');
-					props.refreshFunction(response.data.result);
-				} else {
-					alert('Failed to save Comment');
-				}
-			});
+		axios.post('/api/comment/saveComment', variables).then((response) => {
+			if (response.data.success) {
+				setComment('');
+				props.refreshFunction(response.data.result);
+			} else {
+				alert('Failed to save Comment');
+			}
+		});
 	};
 
 	return (
 		<div>
 			<br />
-			<p> replies</p>
+			<p> 댓글</p>
 			<hr />
 			{/* Comment Lists  */}
 			{console.log(props.commentLists)}
@@ -60,7 +55,7 @@ function Comments(props) {
 								<ReplyComment
 									commentLists={props.commentLists}
 									postId={props.postId}
-									parentComment={comment._id}
+									parentCommentId={comment._id}
 									refreshFunction={props.refreshFunction}
 								/>
 							</React.Fragment>

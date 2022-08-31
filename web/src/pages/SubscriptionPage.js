@@ -15,7 +15,7 @@ function SubscriptionPage() {
 	useEffect(() => {
 		axios
 			.post(
-				'https://youtube-api.run.goorm.io/api/video/getSubscriptionVideos',
+				'/api/video/getSubscriptionVideos',
 				variable
 			)
 			.then((response) => {

@@ -8,7 +8,7 @@ function Main() {
 
 	useEffect(() => {
 		axios
-			.get('https://youtube-api.run.goorm.io/api/video/getVideos')
+			.get('/api/video/getVideos')
 			.then((response) => {
 				if (response.data.success) {
 					console.log(response.data.success);

@@ -8,11 +8,10 @@ import { LOGIN_USER, REGISTER_USER, AUTH_USER } from './types';
 
 export function loginUser(dataToSubmit) {
 	const request = axios
-		.post(
-			'https://youtube-api.run.goorm.io/api/users/login',
-			dataToSubmit,
-			{ withCredentials: true }
-		)
+		.post('/api/users/login', dataToSubmit, {
+			withCredentials: true,
+			crendentials: 'include',
+		})
 		.then((response) => {
 			console.log('data', response.data);
 			return response.data;
@@ -30,11 +29,7 @@ export function loginUser(dataToSubmit) {
 
 export function registerUser(dataToSubmit) {
 	const request = axios
-		.post(
-			'https://youtube-api.run.goorm.io/api/users/register',
-			dataToSubmit,
-			{ withCredentials: true }
-		)
+		.post('/api/users/register', dataToSubmit, { withCredentials: true })
 		.then((response) => response.data);
 
 	return {
@@ -45,7 +40,7 @@ export function registerUser(dataToSubmit) {
 
 export function authUser() {
 	const request = axios
-		.get('https://youtube-api.run.goorm.io/api/users/auth', {
+		.get('/api/users/auth', {
 			withCredentials: true,
 		})
 		.then((response) => {

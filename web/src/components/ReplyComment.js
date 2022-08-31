@@ -3,7 +3,7 @@ import SingleComment from './SingleComment';
 
 function ReplyComment(props) {
 	const [childCommentNumber, setChildCommentNumber] = useState(0);
-	const [openReplyComments, setOpenReplyComments] = useState(false);
+	const [openReplyComments, setOpenReplyComments] = useState(true);
 
 	useEffect(() => {
 		let commentNumber = 0;
@@ -17,15 +17,7 @@ function ReplyComment(props) {
 	}, [props.commentLists, props.parentCommentId]);
 
 	let renderReplyComment = (parentCommentId) =>
-		props.commentLists.map((comment, index) => {
-			// <React.Fragment>
-			//     {comment.responseTo === parentCommentId &&
-			//         <div style={{ width: '80%', marginLeft: '40px' }}>
-			//             <SingleComment comment={comment} postId={props.postId} refreshFunction={props.refreshFunction} />
-			//             <ReplyComment CommentLists={props.CommentLists} parentCommentId={comment._id} postId={props.postId} refreshFunction={props.refreshFunction} />
-			//         </div>
-			//     }
-			// </React.Fragment>
+		props.commentLists.map((comment, index) => (
 			<React.Fragment key={index}>
 				{comment.responseTo === parentCommentId && (
 					<div style={{ width: '80%', marginLeft: '40px' }}>
@@ -42,12 +34,16 @@ function ReplyComment(props) {
 						/>
 					</div>
 				)}
-			</React.Fragment>;
-		});
+			</React.Fragment>
+		));
+
+	console.log(renderReplyComment(props.parentCommentId));
 
 	const handleChange = () => {
 		setOpenReplyComments(!openReplyComments);
 	};
+
+	console.log(openReplyComments);
 
 	return (
 		<div>
@@ -60,7 +56,8 @@ function ReplyComment(props) {
 				</p>
 			)}
 
-			{openReplyComments && renderReplyComment(props.parentCommentId)}
+			{/* {openReplyComments && renderReplyComment(props.parentCommentId)} */}
+			{renderReplyComment(props.parentCommentId)}
 		</div>
 	);
 }

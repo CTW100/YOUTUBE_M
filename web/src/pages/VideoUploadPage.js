@@ -65,11 +65,9 @@ function VideoUploadPage(props) {
 		};
 
 		axios
-			.post(
-				'https://youtube-api.run.goorm.io/api/video/uploadVideo',
-				variables,
-				{ withCredentials: true }
-			)
+			.post('/api/video/uploadVideo', variables, {
+				withCredentials: true,
+			})
 			.then((response) => {
 				if (response.data.success) {
 					alert('Video Uploaded Successfully');
@@ -89,11 +87,7 @@ function VideoUploadPage(props) {
 		formData.append('file', files[0]);
 		console.log('formData.file ', formData.file);
 		axios
-			.post(
-				'https://youtube-api.run.goorm.io/api/video/uploadfiles',
-				formData,
-				config
-			)
+			.post('/api/video/uploadfiles', formData, config)
 			.then((response) => {
 				console.log('response.data: ', response.data);
 				if (response.data.uploadSuccess) {
@@ -106,10 +100,7 @@ function VideoUploadPage(props) {
 					//gerenate thumbnail with this filepath !
 
 					axios
-						.post(
-							'https://youtube-api.run.goorm.io/api/video/thumbnail',
-							variable
-						)
+						.post('/api/video/thumbnail', variable)
 						.then((response) => {
 							if (response.data.success) {
 								setDuration(response.data.fileDuration);
